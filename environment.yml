@@ -1,0 +1,4 @@
+name: maprando
+dependencies:
+  - python=3
+  - xmltodict
