@@ -80,13 +80,13 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
     geo_axes = plt.axes(projection=ccrs.PlateCarree())
 
     # plot points
-    plt.plot(
+    plt.scatter(
         points["lon"],
         points["lat"],
         color="blue",
         linewidth=2,
         marker="o",
-        transform=ccrs.Geodetic(),
+        transform=ccrs.PlateCarree(),
     )
 
     # add open street map background
