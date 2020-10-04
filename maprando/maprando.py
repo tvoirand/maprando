@@ -11,11 +11,13 @@ import dateutil.relativedelta
 
 # third party imports
 import numpy as np
+from numpy.linalg import norm
 import rasterio
 import matplotlib.pyplot as plt
 from matplotlib import cm
 import matplotlib.image as mpimg
 from matplotlib.ticker import FormatStrFormatter
+import matplotlib.colors as colors
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
 import cartopy.geodesic
@@ -69,9 +71,19 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
         np.asarray(points["lat"])
     )
 
-    # add x and y coordinates to points dataframe
-    points["x"] = projected_coords[:, 0]
-    points["y"] = projected_coords[:, 1]
+    # add velocity (in m/s) to points dataframe
+    gradient = np.gradient( # compute gradient
+        projected_coords[:, :2],
+        points["time"],
+        axis=0
+    )
+    points["vel"] = np.array([norm(v) for v in gradient]) # add to dataframe
+
+    # filter velocity
+    vel = np.asarray(points["vel"])
+    vel[vel>6] = 6
+    vel[vel<1] = 2
+    points["vel"] = vel
 
     # create figure
     fig = plt.figure(figsize=(8, 6), dpi=100)
@@ -83,11 +95,16 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
     plt.scatter(
         points["lon"],
         points["lat"],
-        color="blue",
-        linewidth=2,
+        c=points["vel"],
+        cmap="viridis",
+        linewidth=1,
         marker="o",
+        alpha=0.8,
         transform=ccrs.PlateCarree(),
     )
+
+    # add colorbar
+    cbar = plt.colorbar()
 
     # add open street map background
     osm_background = cimgt.OSM()
