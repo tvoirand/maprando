@@ -1,5 +1,5 @@
 """
-Utils module to handle GPX files using shapely.
+Utils module to handle GPX files.
 """
 
 # standard imports
@@ -8,6 +8,8 @@ import datetime
 
 # third party imports
 import xmltodict
+import numpy as np
+import pandas as pd
 
 
 def read_gpx(input_file):
@@ -63,7 +65,17 @@ def read_gpx(input_file):
         if item["@lat"] > ymax:
             ymax = item["@lat"]
 
-    return activity_date, activity_name, xmin, xmax, ymin, ymax, points
+    # store longitude, latitude, and elevation in a numpy array
+    array = np.asarray([[point["@lon"], point["@lat"], point["ele"]] for point in points])
+
+    # store points in pandas data frame, with datetime index
+    data_frame = pd.DataFrame(
+        array,
+        index=[point["time"] for point in points],
+        columns=["lon", "lat", "ele"]
+    )
+
+    return activity_date, activity_name, xmin, xmax, ymin, ymax, data_frame
 
 
 if __name__ == "__main__":
@@ -83,3 +95,5 @@ if __name__ == "__main__":
         ymax,
         "{} points".format(len(points)),
     )
+
+    print(points["lon"])

@@ -73,8 +73,8 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
 
     # plot points
     plt.plot(
-        [float(point["@lon"]) for point in points],
-        [float(point["@lat"]) for point in points],
+        points["lon"],
+        points["lat"],
         color="blue",
         linewidth=2,
         marker="o",
