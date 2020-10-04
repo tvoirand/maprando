@@ -25,21 +25,21 @@ from shapely.geometry import LineString
 from gpx_utils import read_gpx
 
 
-def compute_distance(point_1, point_2):
+def compute_distance(point_A, point_B):
     """
     Compute distance bewteen two points.
     Coordinates should be: (lon, lat), distance is obtained in meters.
     Inputs:
-        -point_1    (float, float)
-        -point_2    (float, float)
+        -point_A    (float, float)
+        -point_B    (float, float)
     Output:
         -distance   float
     """
 
     # create shapely linestring object
     line = LineString((
-        (point_1["@lon"], point_1["@lat"]),
-        (point_2["@lon"], point_2["@lat"])
+        (point_A[0], point_A[1]),
+        (point_B[0], point_B[1])
     ))
 
     # create cartopy geodesic
