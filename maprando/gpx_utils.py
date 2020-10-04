@@ -56,6 +56,9 @@ def read_gpx(input_file):
         item["@lat"] = float(item["@lat"])
         item["ele"] = float(item["ele"])
 
+        # convert time to datetime object
+        item["time"] = datetime.datetime.strptime(item["time"], "%Y-%m-%dT%H:%M:%SZ")
+
         if item["@lon"] < xmin:
             xmin = item["@lon"]
         if item["@lon"] > xmax:
