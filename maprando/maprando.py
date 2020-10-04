@@ -62,6 +62,17 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
     # read gpx file
     activity_date, activity_name, xmin, xmax, ymin, ymax, points = read_gpx(input_file)
 
+    # get coordinates of points in meters (projected in EPSG 3857)
+    projected_coords = ccrs.epsg(3857).transform_points(
+        ccrs.PlateCarree(),
+        np.asarray(points["lon"]),
+        np.asarray(points["lat"])
+    )
+
+    # add x and y coordinates to points dataframe
+    points["x"] = projected_coords[:, 0]
+    points["y"] = projected_coords[:, 1]
+
     # create figure
     fig = plt.figure(figsize=(8, 6), dpi=100)
 
