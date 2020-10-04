@@ -45,16 +45,20 @@ def read_gpx(input_file):
     ymin = 90
     ymax = -90
     for item in points:
-        lon = float(item["@lon"])
-        lat = float(item["@lat"])
-        if lon < xmin:
-            xmin = lon
-        if lon > xmax:
-            xmax = lon
-        if lat < ymin:
-            ymin = lat
-        if lat > ymax:
-            ymax = lat
+
+        # convert longitude, latitude, and elevation to float
+        item["@lon"] = float(item["@lon"])
+        item["@lat"] = float(item["@lat"])
+        item["ele"] = float(item["ele"])
+        
+        if item["@lon"] < xmin:
+            xmin = item["@lon"]
+        if item["@lon"] > xmax:
+            xmax = item["@lon"]
+        if item["@lat"] < ymin:
+            ymin = item["@lat"]
+        if item["@lat"] > ymax:
+            ymax = item["@lat"]
 
     return activity_date, activity_name, xmin, xmax, ymin, ymax, points
 
