@@ -37,10 +37,7 @@ def compute_distance(point_A, point_B):
     """
 
     # create shapely linestring object
-    line = LineString((
-        (point_A[0], point_A[1]),
-        (point_B[0], point_B[1])
-    ))
+    line = LineString(((point_A[0], point_A[1]), (point_B[0], point_B[1])))
 
     # create cartopy geodesic
     geodesic = cartopy.geodesic.Geodesic()
