@@ -4,20 +4,13 @@ A little script to create personalized maps from my Strava activities.
 
 # standard imports
 import os
-import sys
 import argparse
-import datetime
-import dateutil.relativedelta
 
 # third party imports
 import numpy as np
 from numpy.linalg import norm
-import rasterio
 import matplotlib.pyplot as plt
-from matplotlib import cm
-import matplotlib.image as mpimg
 from matplotlib.ticker import FormatStrFormatter
-import matplotlib.colors as colors
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
 import cartopy.geodesic
