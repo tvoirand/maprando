@@ -9,6 +9,7 @@ import datetime
 # third party imports
 import xmltodict
 
+
 def read_gpx(input_file):
     """
     Read GPX files.
@@ -31,7 +32,9 @@ def read_gpx(input_file):
         data = xmltodict.parse(infile.read())
 
     # read activity date
-    activity_date = datetime.datetime.strptime(data["gpx"]["metadata"]["time"], "%Y-%m-%dT%H:%M:%SZ")
+    activity_date = datetime.datetime.strptime(
+        data["gpx"]["metadata"]["time"], "%Y-%m-%dT%H:%M:%SZ"
+    )
 
     # read activity name
     activity_name = data["gpx"]["trk"]["name"]
@@ -50,7 +53,7 @@ def read_gpx(input_file):
         item["@lon"] = float(item["@lon"])
         item["@lat"] = float(item["@lat"])
         item["ele"] = float(item["ele"])
-        
+
         if item["@lon"] < xmin:
             xmin = item["@lon"]
         if item["@lon"] > xmax:
@@ -71,4 +74,12 @@ if __name__ == "__main__":
 
     activity_date, activity_name, xmin, xmax, ymin, ymax, points = read_gpx(args.input)
 
-    print(activity_date, activity_name, xmin, xmax, ymin, ymax, "{} points".format(len(points)))
+    print(
+        activity_date,
+        activity_name,
+        xmin,
+        xmax,
+        ymin,
+        ymax,
+        "{} points".format(len(points)),
+    )
