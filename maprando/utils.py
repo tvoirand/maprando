@@ -1,5 +1,5 @@
 """
-Utils module to handle GPX files.
+Utils module for maprando.
 """
 
 # standard imports
@@ -10,6 +10,29 @@ import datetime
 import xmltodict
 import numpy as np
 import pandas as pd
+import cartopy.geodesic
+from shapely.geometry import LineString
+
+
+def compute_distance(point_A, point_B):
+    """
+    Compute distance bewteen two points using cartopy and shapely.
+    Coordinates should be: (lon, lat), distance is obtained in meters.
+    Inputs:
+        -point_A    (float, float)
+        -point_B    (float, float)
+    Output:
+        -distance   float
+    """
+
+    # create shapely linestring object
+    line = LineString(((point_A[0], point_A[1]), (point_B[0], point_B[1])))
+
+    # create cartopy geodesic
+    geodesic = cartopy.geodesic.Geodesic()
+
+    # return distance
+    return geodesic.geometry_length(line)
 
 
 def read_gpx(input_file):

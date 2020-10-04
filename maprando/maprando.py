@@ -13,32 +13,9 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
-import cartopy.geodesic
-from shapely.geometry import LineString
 
 # local imports
-from gpx_utils import read_gpx
-
-
-def compute_distance(point_A, point_B):
-    """
-    Compute distance bewteen two points.
-    Coordinates should be: (lon, lat), distance is obtained in meters.
-    Inputs:
-        -point_A    (float, float)
-        -point_B    (float, float)
-    Output:
-        -distance   float
-    """
-
-    # create shapely linestring object
-    line = LineString(((point_A[0], point_A[1]), (point_B[0], point_B[1])))
-
-    # create cartopy geodesic
-    geodesic = cartopy.geodesic.Geodesic()
-
-    # return distance
-    return geodesic.geometry_length(line)
+from utils import read_gpx
 
 
 def maprando(input_file, output_file, background_file=None, logos_file=None):
