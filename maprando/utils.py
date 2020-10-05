@@ -47,9 +47,13 @@ def read_gpx(input_file):
         -xmax           float
         -ymin           float
         -ymax           float
-        -points         [OrderedDict, ...]
-            contains for each point:
-            ('@lat', float), ('@lon', float), ('ele', float), ('time', '%Y-%m-%dT%H:%M:%SZ')])
+        -points         pandas dataframe
+            index: timestamp as datetime object
+            columns:
+                "lon" (float) (longitude)
+                "lat" (float) (latitude)
+                "ele" (float) (elevation)
+                "time" (float) (time elapsed since activity start in seconds)
     """
 
     # parse input file

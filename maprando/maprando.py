@@ -52,7 +52,7 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
     # filter velocity
     vel = np.asarray(points["vel"])
     vel[vel>6] = 6
-    vel[vel<1] = 2
+    vel[vel<2] = 2
     points["vel"] = vel
 
     # create figure
