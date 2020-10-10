@@ -67,10 +67,9 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
         points["lon"],
         points["lat"],
         c=points["vel"],
-        cmap="viridis",
+        cmap="RdBu_r",
         linewidth=1,
         marker="o",
-        alpha=0.8,
         transform=ccrs.PlateCarree(),
     )
 
