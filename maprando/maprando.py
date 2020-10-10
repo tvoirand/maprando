@@ -41,12 +41,13 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
         np.asarray(points["lat"])
     )
 
-    # add velocity (in m/s) to points dataframe
+    # add velocity (in km/h) to points dataframe
     gradient = np.gradient( # compute gradient
         projected_coords[:, :2],
         points["time"],
         axis=0
     )
+    gradient *= 3.6 # convert form m/s to km/h
     points["vel"] = np.array([norm(v) for v in gradient]) # add to dataframe
 
     # filter velocity
