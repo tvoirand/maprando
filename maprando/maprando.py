@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
+from scipy import signal
 
 # local imports
 from utils import read_gpx
@@ -51,10 +52,8 @@ def maprando(input_file, output_file, background_file=None, logos_file=None):
     points["vel"] = np.array([norm(v) for v in gradient]) # add to dataframe
 
     # filter velocity
-    vel = np.asarray(points["vel"])
-    vel[vel>6] = 6
-    vel[vel<2] = 2
-    points["vel"] = vel
+    b, a = signal.butter(3, 0.01) # get Butterworth filter coefficients
+    points["vel"] = signal.filtfilt(b, a, points["vel"]) # apply forward and backward filter
 
     # create figure
     fig = plt.figure(figsize=(8, 6), dpi=100)
