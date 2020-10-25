@@ -34,23 +34,21 @@ def maprando(input_file, output_file, title=None):
 
     # get coordinates of points in meters (projected in EPSG 3857)
     projected_coords = ccrs.epsg(3857).transform_points(
-        ccrs.PlateCarree(),
-        np.asarray(points["lon"]),
-        np.asarray(points["lat"])
+        ccrs.PlateCarree(), np.asarray(points["lon"]), np.asarray(points["lat"])
     )
 
     # add velocity (in km/h) to points dataframe
-    gradient = np.gradient( # compute gradient
-        projected_coords[:, :2],
-        points["time"],
-        axis=0
+    gradient = np.gradient(  # compute gradient
+        projected_coords[:, :2], points["time"], axis=0
     )
-    gradient *= 3.6 # convert form m/s to km/h
-    points["vel"] = np.array([norm(v) for v in gradient]) # add to dataframe
+    gradient *= 3.6  # convert form m/s to km/h
+    points["vel"] = np.array([norm(v) for v in gradient])  # add to dataframe
 
     # filter velocity
-    b, a = signal.butter(3, 0.01) # get Butterworth filter coefficients
-    points["vel"] = signal.filtfilt(b, a, points["vel"]) # apply forward and backward filter
+    b, a = signal.butter(3, 0.01)  # get Butterworth filter coefficients
+    points["vel"] = signal.filtfilt(
+        b, a, points["vel"]
+    )  # apply forward and backward filter
 
     # create figure
     fig = plt.figure(figsize=(16, 12), dpi=100)
@@ -98,7 +96,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     required_arguments = parser.add_argument_group("required arguments")
-    required_arguments.add_argument("-i", "--input_file", help="input gpx file", required=True)
+    required_arguments.add_argument(
+        "-i", "--input_file", help="input gpx file", required=True
+    )
     required_arguments.add_argument(
         "-o", "--output_file", help="output pdf file", required=True
     )
