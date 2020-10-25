@@ -84,8 +84,8 @@ def maprando(input_file, output_file):
     gridlines.xformatter = FormatStrFormatter("%.3f°E")
     gridlines.yformatter = FormatStrFormatter("%.4f°N")
 
-    # show map
-    plt.show()
+    # save map
+    plt.savefig(output_file)
 
 
 if __name__ == "__main__":
