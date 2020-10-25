@@ -91,7 +91,7 @@ def maprando(input_file, output_file, title=None):
         plt.title(title)
 
     # save map
-    plt.savefig(output_file)
+    plt.savefig(output_file, bbox_inches="tight")
 
 
 if __name__ == "__main__":
