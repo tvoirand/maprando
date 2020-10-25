@@ -19,17 +19,13 @@ from scipy import signal
 from utils import read_gpx
 
 
-def maprando(input_file, output_file, background_file=None, logos_file=None):
+def maprando(input_file, output_file):
     """
     Create personalized maps from my Strava activities.
     Input:
         -input_file         str
         -output_file        str
             pdf
-        -background_file    str
-            to use a georeferenced image file as background
-        -logos_file         str
-            image file to insert logo in the map
     """
 
     # read gpx file
@@ -100,13 +96,9 @@ if __name__ == "__main__":
     required_arguments.add_argument(
         "-output_file", help="output pdf file", required=True
     )
-    parser.add_argument("-background_file", help="background image file")
-    parser.add_argument("-logos_file", help="logos image file")
     args = parser.parse_args()
 
     maprando(
         args.input_file,
         args.output_file,
-        args.background_file,
-        args.logos_file,
     )
