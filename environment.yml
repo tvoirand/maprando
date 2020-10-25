@@ -2,3 +2,10 @@ name: maprando
 dependencies:
   - python=3
   - xmltodict
+  - numpy
+  - pandas
+  - cartopy
+  - pyepsg
+  - shapely
+  - matplotlib
+  - scipy
