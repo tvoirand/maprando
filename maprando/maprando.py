@@ -19,13 +19,14 @@ from scipy import signal
 from utils import read_gpx
 
 
-def maprando(input_file, output_file):
+def maprando(input_file, output_file, title=None):
     """
     Create personalized maps from my Strava activities.
     Input:
         -input_file         str
         -output_file        str
             pdf
+        -title              str
     """
 
     # read gpx file
@@ -52,7 +53,7 @@ def maprando(input_file, output_file):
     points["vel"] = signal.filtfilt(b, a, points["vel"]) # apply forward and backward filter
 
     # create figure
-    fig = plt.figure(figsize=(8, 6), dpi=100)
+    fig = plt.figure(figsize=(16, 12), dpi=100)
 
     # create geo axes
     geo_axes = plt.axes(projection=ccrs.PlateCarree())
@@ -69,7 +70,8 @@ def maprando(input_file, output_file):
     )
 
     # add colorbar
-    cbar = plt.colorbar()
+    cbar = plt.colorbar(shrink=0.4)
+    cbar.set_label("Walking speed (km/h)")
 
     # add open street map background
     osm_background = cimgt.OSM()
@@ -84,6 +86,10 @@ def maprando(input_file, output_file):
     gridlines.xformatter = FormatStrFormatter("%.3f°E")
     gridlines.yformatter = FormatStrFormatter("%.4f°N")
 
+    # add title
+    if title is not None:
+        plt.title(title)
+
     # save map
     plt.savefig(output_file)
 
@@ -92,13 +98,15 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     required_arguments = parser.add_argument_group("required arguments")
-    required_arguments.add_argument("-input_file", help="input gpx file", required=True)
+    required_arguments.add_argument("-i", "--input_file", help="input gpx file", required=True)
     required_arguments.add_argument(
-        "-output_file", help="output pdf file", required=True
+        "-o", "--output_file", help="output pdf file", required=True
     )
+    parser.add_argument("-t", "--title")
     args = parser.parse_args()
 
     maprando(
         args.input_file,
         args.output_file,
+        args.title,
     )
